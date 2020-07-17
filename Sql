@@ -1,0 +1,35 @@
+create table  bl_user(
+	Id int ,
+	Code varchar(120),
+	OrganCode varchar(120),
+	RoleCode varchar(120),
+	FName varchar(120),
+	FPassword varchar(120),
+	Remark varchar(120),
+	MobileCode varchar(120),
+	SaveTime varchar(120),
+	Isupped int,
+	primary key (Id)
+);
+
+create table bl_order(
+	Id int,
+	Code varchar(120),
+	BizType varchar(120),
+	CarNumber varchar(120),
+	MaterialCode varchar(120),
+	MaterialName varchar(120),
+	CustomCode varchar(120),
+	CustomName varchar(120),
+	OrderWeight decimal(15,2),
+	Specification varchar(120),
+	Driver varchar(120),
+	Price decimal(15,2),
+	Money decimal(15,2),
+	CompleteWeight varchar(120),
+	SaveTime varchar(120),
+	OrderTime varchar(120),
+	State int,
+	Remark varchar(120),
+	primary key (Id)
+)
