@@ -9,7 +9,7 @@
 			<view class="user-top-box">
 				<image src="/static/images/missing-face.png" mode="" class="user-name-img"></image>
 			</view>
-			<navigator class="user-name"  url="../pages/login" open-type="navigate">请登陆</navigator>
+			<navigator class="user-name"  url="/pages/login/login" open-type="navigate">请登陆</navigator>
 		</view>
 		<view class="user-top" v-if="hasLogin">
 			<view class="user-top-box">
