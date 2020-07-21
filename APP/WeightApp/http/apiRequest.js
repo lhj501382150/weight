@@ -34,7 +34,7 @@ function init(con) {
             Object.keys(http.header).forEach(function (key) {
                 con.header[key] = http.header[key]
             });
-        }
+        }	
     }
 }
  

@@ -13,12 +13,6 @@
 				<text class="login-title">密码</text>
 				<input type="password" value=""  placeholder="请输入您的密码" class="login-input" displayable v-model="password"/>
 			</view>
-			<view class="login-box">
-				<text class="login-title">验证码</text>
-				<input type="text" value=""  placeholder="请输入验证码" class="login-input-captcha" displayable v-model="captcha"/>
-				<image :src="captcha_src" mode="" class="login-img" @click="refreshCaptcha"></image>
-			</view>
-			
 		<!-- 	<view class="login-url">
 				<navigator url="" class="login-url-a">忘记密码</navigator>
 				<navigator url="/pages/register" class="login-url-a">注册</navigator>
@@ -38,8 +32,6 @@
 			return {
 				account: '',
 				password: '',
-				captcha: '',
-				captcha_src:'',
 				positionTop: 0
 			}
 		},
@@ -86,14 +78,8 @@
 				         this.text = 'request success';
 				     }
 				 }); */
-			 },
-			 refreshCaptcha: function(){
-			   this.captcha_src = this.global.baseUrl + "/captcha.jpg?t=" + new Date().getTime();
-			 },
-		},
-		onLoad() {
-			console.log("----------")
-			this.refreshCaptcha()
+			 }
+			
 		}
 	}
 </script>
@@ -132,19 +118,6 @@
 					font-size: 30upx;
 					margin-left: 5%;
 				}
-				.login-input-captcha{
-					width: 40%;
-					height: 60upx;
-					line-height: 60upx;
-					font-size: 30upx;
-					margin-left: 5%;
-				}
-				.login-img{
-					width: 30%;
-					height: 108upx;
-					line-height: 60upx;
-				}
-				
 			.login-butt{
 				width:90%;
 				height: 90upx;
