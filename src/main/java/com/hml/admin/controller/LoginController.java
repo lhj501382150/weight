@@ -68,15 +68,6 @@ public class LoginController {
 	public HttpResult login(@RequestBody LoginBean loginBean, HttpServletRequest request) throws IOException {
 		String username = loginBean.getAccount();
 		String password = loginBean.getPassword();
-		String captcha = loginBean.getCaptcha();
-		// 从session中获取之前保存的验证码跟前台传来的验证码进行匹配
-		Object kaptcha = request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-		if(kaptcha == null){
-			return HttpResult.error("验证码已失效");
-		}
-		if(!captcha.equals(kaptcha)){
-			return HttpResult.error("验证码不正确");
-		}
 		// 用户信息
 		User user = userService.findByName(username);
 		// 账号不存在、密码错误
