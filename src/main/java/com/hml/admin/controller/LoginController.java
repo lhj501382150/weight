@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
+import com.hml.admin.constant.SysConstants;
+import com.hml.admin.entity.AppLogin;
 import com.hml.admin.entity.User;
 import com.hml.admin.security.JwtAuthenticatioToken;
 import com.hml.admin.service.IUserService;
@@ -81,16 +83,34 @@ public class LoginController {
 		if (user == null) {
 			return HttpResult.error("账号不存在");
 		}
-		if (!PasswordUtils.matches("hxl", password, user.getFPassword())) {
+		if("".equals(user.getFPassword())){
+			return HttpResult.error(101, "首次登陆App，请绑定");
+		}
+		if (!PasswordUtils.matches(SysConstants.SALT, password, user.getFPassword())) {
 			return HttpResult.error("密码不正确");
 		}
-		// 账号锁定
-		/*if (user.getStatus() == 0) {
-			return HttpResult.error("账号已被锁定,请联系管理员");
-		}*/
+		
 		// 系统登录认证
 		JwtAuthenticatioToken token = SecurityUtils.login(request, username, password, authenticationManager);
 		return HttpResult.ok(token);
+	}
+	@PostMapping(value="/loginRegist")
+	public HttpResult saveAppLogin(@RequestBody LoginBean loginBean, HttpServletRequest request)throws Exception{
+		String username = loginBean.getAccount();
+		String mobile = loginBean.getMobile();
+		User user = userService.findByNameAndMobile(username, mobile);
+		if(user == null){
+			return HttpResult.error("提交信息不存在");
+		}
+		AppLogin login = new AppLogin();
+		login.setCode(username);
+		String pwd = loginBean.getPassword();
+		pwd = PasswordUtils.encode(pwd, SysConstants.SALT);
+		login.setPwd(pwd);
+		login.setMobile(loginBean.getMobile());
+		
+		int code = userService.saveAppLogin(login);
+		return HttpResult.ok(code);
 	}
 
 }

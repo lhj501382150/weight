@@ -1,0 +1,53 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+		    "path" : "pages/order/order",
+		    "style" : {
+				"navigationBarTitleText": " 订单信息"
+			}
+		}
+		,{
+		    "path" : "pages/weight/weight",
+		    "style" : {
+				"navigationBarTitleText": " 磅单信息"
+			}
+		}
+	    ,{
+            "path" : "pages/user/user",
+            "style" : {
+				"navigationBarTitleText": " 个人中心"
+			}
+        }
+        
+        ,{
+            "path" : "pages/login/login",
+            "style" : {
+				"navigationBarTitleText": " 登录"
+			}
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": " 销售报表",
+		"navigationBarBackgroundColor": "#007AFF",
+		"backgroundColor": "#007AFF"
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#007AFF",
+		"borderStyle": "black",
+		"backgroundColor": "#F8F8F8",
+		"list": [{
+				"pagePath": "pages/order/order",
+				"text": "订单"
+			},
+			{
+				"pagePath": "pages/weight/weight",
+				"text": "磅单"
+			}, {
+				"pagePath": "pages/user/user",
+				"text": "我的"
+			}
+		]
+	}
+}

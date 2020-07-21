@@ -1,0 +1,134 @@
+<template>
+	<view class="user">
+		<view class="user-top-one">
+			<image src="/static/images/xiaoxi.png" mode="" class="user-top-one-top"></image>
+			<text class="user-top-one-title">我的</text>
+			<image src="/static/images/shezhi.png" mode="" class="user-top-one-three"></image>
+		</view>
+		<view class="user-top" v-if="!hasLogin">
+			<view class="user-top-box">
+				<image src="/static/images/missing-face.png" mode="" class="user-name-img"></image>
+			</view>
+			<navigator class="user-name"  url="../pages/login" open-type="navigate">请登陆</navigator>
+		</view>
+		<view class="user-top" v-if="hasLogin">
+			<view class="user-top-box">
+				<image src="/static/images/missing-face.png" mode="" class="user-name-img"></image>
+			</view>
+			<text class="user-name" >{{userName}}</text>
+		</view>
+	</view>
+</template>
+
+<script>
+	import { mapState } from 'vuex'
+	export default {
+		computed: {
+			...mapState(['forcedLogin', 'hasLogin', 'userName'])
+		},
+		onLoad() {
+			if(!this.hasLogin){
+				 uni.showModal({
+					 title: '未登录',
+					 content: '您未登录，需要登录后才能继续',
+					 showCancel:this.forcedLogin,
+					 success:(res)=> {
+					 	 if (res.confirm) {
+							 console.log(res)
+							 uni.navigateTo({
+							 	url: '/pages/login/login'
+							 })
+						 }
+					 }
+				 })
+			}
+		},
+		data() {
+			return {
+				
+			}
+		},
+		methods: {
+			
+		}
+	}
+</script>
+
+<style>
+	.user{
+		width: 100%;
+		height: 100%;
+		background-color: #f5f5f5;
+	}
+	/* 隐藏式头部*/
+	.user-top-one{
+		width: 100%;
+		height: 90upx;
+		
+		position: fixed;
+		top: 0;
+		left: 0;
+		opacity: 0;
+		
+		background-color: #FFFFFF;
+	}
+		.user-top-one-top{
+			width: 40upx;
+			height: 40upx;
+			margin-left: 4%;
+			margin-top: 25upx;
+			float: left;
+		}
+		.user-top-one-three{
+			width: 40upx;
+			height: 40upx;
+			float: right;
+			margin-right: 4%;
+			margin-top: 25upx;
+		}
+		.user-top-one-title{
+			font-size: 36upx;
+			color: #000000;
+			font-weight: 700;
+			height: 90upx;
+			line-height:90upx;
+			width: 20%;
+			float: left;
+			text-align: center;
+			margin: 0 30%;
+		}
+	
+	/* 头部背景 */
+		.user-top{
+			width: 100%;
+			height: 400upx;
+			background-image: url('/static/images/user-bg.jpg');
+			
+		}
+		.user-top-box{
+			width: 150upx;
+			height: 150upx;
+			border-radius: 50%;
+			background-color: #FFFFFF;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+				margin-top: 160upx;
+			margin-left: 40upx;
+			float: left;
+		}
+		.user-name-img{
+			width: 140upx;
+			height: 140upx;
+			border-radius: 50%;
+		
+		}
+		.user-name{
+			color: #FFFFFF;
+			
+			margin-top:200upx;
+			margin-left: 20upx;
+			float: left;
+			font-size: 40upx;
+		}
+</style>

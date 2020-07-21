@@ -2,6 +2,8 @@ package com.hml.admin.util;
 
 import java.security.MessageDigest;
 
+import com.hml.admin.constant.SysConstants;
+
 /**
  * 密码加密
  * @author hml
@@ -57,7 +59,7 @@ public class PasswordEncoder {
 	}
 	
 	public static void main(String[] args) {
-		String str = new PasswordEncoder("hxl").encode("111111");
+		String str = new PasswordEncoder(SysConstants.SALT).encode("111111");
 		System.out.println(str);
 	}
 

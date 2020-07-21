@@ -1,6 +1,7 @@
 package com.hml.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hml.admin.entity.AppLogin;
 import com.hml.admin.entity.User;
 
 /**
@@ -14,4 +15,8 @@ import com.hml.admin.entity.User;
 public interface IUserService extends IService<User> {
 	
 	User findByName(String username);
+	
+	User findByNameAndMobile(String username,String mobile);
+	
+	int saveAppLogin(AppLogin record);
 }

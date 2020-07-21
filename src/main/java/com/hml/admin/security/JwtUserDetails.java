@@ -23,7 +23,7 @@ public class JwtUserDetails implements UserDetails {
     JwtUserDetails(String username, String password, String salt, Collection<? extends GrantedAuthority> authorities) {
         this.username = username;
         this.password = password;
-        this.salt = "hxl";
+        this.salt = salt;
         this.authorities = authorities;
     }
 

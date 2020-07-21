@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.hml.admin.constant.SysConstants;
 import com.hml.admin.entity.User;
 import com.hml.admin.service.IUserService;
 
@@ -36,6 +37,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         permissions.add("order:findAll");
         permissions.add("order:save");
         List<GrantedAuthority> grantedAuthorities = permissions.stream().map(GrantedAuthorityImpl::new).collect(Collectors.toList());
-        return new JwtUserDetails(user.getFName(), user.getFPassword(), user.getCode(), grantedAuthorities);
+        return new JwtUserDetails(user.getCode(), user.getFPassword(), SysConstants.SALT, grantedAuthorities);
     }
 }

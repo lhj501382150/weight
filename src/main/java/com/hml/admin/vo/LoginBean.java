@@ -10,6 +10,7 @@ public class LoginBean {
 	private String account;
 	private String password;
 	private String captcha;
+	private String mobile;
 	
 	public String getAccount() {
 		return account;
@@ -29,5 +30,10 @@ public class LoginBean {
 	public void setCaptcha(String captcha) {
 		this.captcha = captcha;
 	}
-	
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
 }
