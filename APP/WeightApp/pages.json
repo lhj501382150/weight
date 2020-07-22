@@ -3,13 +3,15 @@
 		{
 		    "path" : "pages/order/order",
 		    "style" : {
-				"navigationBarTitleText": " 订单信息"
+				"navigationBarTitleText": " 订单信息",
+				"enablePullDownRefresh":true
 			}
 		}
 		,{
 		    "path" : "pages/weight/weight",
 		    "style" : {
-				"navigationBarTitleText": " 磅单信息"
+				"navigationBarTitleText": " 磅单信息",
+				"enablePullDownRefresh":true
 			}
 		}
 	    ,{
@@ -24,6 +26,16 @@
             "style" : {
 				"navigationBarTitleText": " 登录"
 			}
+        }
+        ,{
+            "path" : "pages/orderAdd/orderAdd",
+            "style" : {
+				"navigationBarTitleText": " 订单新增"
+			}
+        }
+        ,{
+            "path" : "pages/orderAdd/orderAdd",
+            "style" : {}
         }
     ],
 	"globalStyle": {

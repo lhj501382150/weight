@@ -12,17 +12,7 @@
 			}
 		},
 		methods: {
-			testA(){
-				console.log("TEST  A");
-				this.testB();
-			},
-			testB(){
-				console.log("TEST B")
-			}
 			
-		},
-		onLoad(){
-			this.testA()
 		}
 	}
 </script>

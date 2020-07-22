@@ -17,6 +17,39 @@
 			</view>
 			<text class="user-name" >{{userName}}</text>
 		</view>
+		
+		<navigator class="user-naver" url="/pages/order/order" open-type="switchTab">
+			<view class="user-naver-left">
+				<image src="/static/images/dingdan.png" mode="" class="user-naver-left-img"></image>
+				<text class="user-naver-left-title">订单查询</text>
+			</view>
+			<view class="user-naver-right">
+				<text class="user-naver-right-title"></text>
+				<image src="/static/images/youjiantou.png" mode="" class="user-naver-right-img"></image>
+			</view>
+		</navigator>
+		
+		<navigator class="user-naver" url="../orderAdd/orderAdd" >
+			<view class="user-naver-left">
+				<image src="/static/images/dingdan.png" mode="" class="user-naver-left-img"></image>
+				<text class="user-naver-left-title">订单新增</text>
+			</view>
+			<view class="user-naver-right">
+				<text class="user-naver-right-title"></text>
+				<image src="/static/images/youjiantou.png" mode="" class="user-naver-right-img"></image>
+			</view>
+		</navigator>
+		
+		<navigator class="user-naver" url="../weight/weight" open-type="switchTab">
+			<view class="user-naver-left">
+				<image src="/static/images/dingdan.png" mode="" class="user-naver-left-img"></image>
+				<text class="user-naver-left-title">磅单查询</text>
+			</view>
+			<view class="user-naver-right">
+				<text class="user-naver-right-title"></text>
+				<image src="/static/images/youjiantou.png" mode="" class="user-naver-right-img"></image>
+			</view>
+		</navigator>
 	</view>
 </template>
 
@@ -131,4 +164,50 @@
 			float: left;
 			font-size: 40upx;
 		}
+		.user-naver{
+			width: 98%;
+			height: 110upx;
+			border-bottom: 1px #fbfbfb solid;
+			background-color: #FFFFFF;
+			margin-left: 1%;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+		.user-naver:nth-last-child(1){
+			margin-bottom: 26upx;
+		}
+			.user-naver-left{
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				height: 110upx;
+				/* width: 30%; */
+			}
+			.user-naver-right{
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				height: 110upx;
+				/* width: 30%; */
+			}
+			.user-naver-left-img{
+				width: 40upx;
+				height: 40upx;
+				margin: 0 30upx;
+			}
+			.user-naver-right-img{
+				width: 40upx;
+				height: 40upx;
+				margin-right: 10upx;
+			}
+			.user-naver-left-title{
+				font-size: 30upx;
+				color: #555555;
+			}
+			.user-naver-right-title{
+				font-size: 24upx;
+				color: #9f9fa1;
+				margin-right: 10upx;
+			}
 </style>

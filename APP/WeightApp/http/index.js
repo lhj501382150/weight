@@ -2,8 +2,14 @@ import http from './apiRequest'
 import {baseUrl,AUTH_TOKEN} from '../utils/global'
 
 http.setBaseUrl(baseUrl)
-if (uni.getStorageSync(AUTH_TOKEN)) {
-    http.header[AUTH_TOKEN] = uni.getStorageSync(AUTH_TOKEN);
+http.beforeRequestFilter = function(res){
+	http.header[AUTH_TOKEN] = '';
+	if(res.url.indexOf("/login") < 0){
+		if (uni.getStorageSync(AUTH_TOKEN)) {
+		    http.header[AUTH_TOKEN] = uni.getStorageSync(AUTH_TOKEN);
+		}
+	} 
+	return res;
 }
 http.beforeResponseFilter = function (res) {
     //X-Auth-Token

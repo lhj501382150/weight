@@ -18,7 +18,7 @@
 				<navigator url="/pages/register" class="login-url-a">注册</navigator>
 			</view> -->
 			<view class="login-butt">
-			<button type="primary" class="login-submit" @click="bindLogin">登录</button>
+			<button type="primary" class="login-submit" @click="bindLogin" :loading="loading" :disabled="disabled">登录</button>
 				
 			</view>
 		</form>
@@ -27,15 +27,20 @@
 
 <script>
 	import { mapState,mapMutations} from 'vuex'
+	import {AUTH_TOKEN} from '../../utils/global'
+	let that = null
 	export default {
 		data() {
 			return {
 				account: '',
 				password: '',
-				positionTop: 0
+				positionTop: 0,
+				loading:false,
+				disabled:false
 			}
 		},
-		computed:mapState(['forcedLogin']),
+		computed: mapState(['forcedLogin']),
+		
 		methods: {
 			 ...mapMutations(['login']),
 			 bindLogin(){
@@ -57,29 +62,34 @@
 				     account: this.account,
 				     password: this.password
 				 };
+				 uni.removeStorageSync(AUTH_TOKEN);
+				 this.loading = true;
+				 this.disabled = true;
 				 this.$http.post('/login',data,function(res){
 						if(res.code==200){
-							
+							uni.setStorageSync(AUTH_TOKEN, res.data.token);
+							that.toMain(res.data.name);
+							  
 						}else{
 							uni.showToast({
 							        icon: 'none',
 							        title: res.msg,
 							    });
+								that.loading = false
+								that.disabled = false
 						}
 					 })
-				 /* uni.request({
-				     url: 'http://localhost:8090/login', //仅为示例，并非真实接口地址。
-				     data: data,
-				     header: {
-				         'custom-header': 'hello' //自定义请求头信息
-				     },
-				     success: (res) => {
-				         console.log(res.data);
-				         this.text = 'request success';
-				     }
-				 }); */
-			 }
+			 },
+			 toMain:function(userName) {
+			        that.login(userName);
+			        uni.reLaunch({
+			        	url:"/pages/user/user"
+			        })
+			}
 			
+		},
+		onLoad() {
+			that  = this
 		}
 	}
 </script>
