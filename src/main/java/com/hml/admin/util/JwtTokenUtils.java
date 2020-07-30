@@ -1,13 +1,17 @@
 package com.hml.admin.util;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 
+import com.hml.admin.security.GrantedAuthorityImpl;
 import com.hml.admin.security.JwtAuthenticatioToken;
 
 import io.jsonwebtoken.Claims;
@@ -67,6 +71,10 @@ public class JwtTokenUtils implements Serializable {
     private static String generateToken(Map<String, Object> claims) {
         Date expirationDate = new Date(System.currentTimeMillis() + EXPIRE_TIME);
         return Jwts.builder().setClaims(claims).setExpiration(expirationDate).signWith(SignatureAlgorithm.HS512, SECRET).compact();
+		/*
+		 * String uuid = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();
+		 * return uuid;
+		 */
     }
 
     /**
@@ -110,8 +118,14 @@ public class JwtTokenUtils implements Serializable {
 				if(isTokenExpired(token)) {
 					return null;
 				}
-				
-				authentication = new JwtAuthenticatioToken(username, null, token);
+				Object authors = claims.get(AUTHORITIES);
+				List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+				if (authors != null && authors instanceof List) {
+					for (Object object : (List) authors) {
+						authorities.add(new GrantedAuthorityImpl((String) ((Map) object).get("authority")));
+					}
+				}
+				authentication = new JwtAuthenticatioToken(username, null, authorities, token);
 			} else {
 				if(validateToken(token, SecurityUtils.getUsername())) {
 					// 如果上下文中Authentication非空，且请求令牌合法，直接返回当前登录认证信息

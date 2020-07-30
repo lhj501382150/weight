@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("bl_order")
+@TableName("SaleOrders")
 public class Order implements Serializable {
 
     private static final long serialVersionUID=1L;
@@ -29,53 +29,66 @@ public class Order implements Serializable {
     @TableField("Code")
     private String Code;
 
-    @TableField("BizType")
-    private String BizType;
+    @TableField("CustomerCode")
+    private String CustomerCode;
 
-    @TableField("CarNumber")
-    private String CarNumber;
+    @TableField("CustomerName")
+    private String CustomerName;
+
+    @TableField("VendorCode")
+    private String VendorCode;
+
+    @TableField("Vendor")
+    private String Vendor;
+
+    @TableField("MaterialID")
+    private String MaterialID;
 
     @TableField("MaterialCode")
     private String MaterialCode;
 
     @TableField("MaterialName")
-    private String MaterialName;
+    private BigDecimal MaterialName;
 
-    @TableField("CustomCode")
-    private String CustomCode;
+    @TableField("SpecificationsModel")
+    private String SpecificationsModel;
 
-    @TableField("CustomName")
-    private String CustomName;
+    @TableField("Total")
+    private BigDecimal Total;
 
-    @TableField("OrderWeight")
-    private BigDecimal OrderWeight;
+    @TableField("SendCount")
+    private BigDecimal SendCount;
 
-    @TableField("Specification")
-    private String Specification;
+    @TableField("Count")
+    private BigDecimal Count;
 
-    @TableField("Driver")
-    private String Driver;
-
-    @TableField("Price")
-    private BigDecimal Price;
-
-    @TableField("Money")
-    private BigDecimal Money;
-
-    @TableField("CompleteWeight")
-    private String CompleteWeight;
+    @TableField("CreateTime")
+    private String CreateTime;
 
     @TableField("SaveTime")
     private String SaveTime;
 
-    @TableField("OrderTime")
-    private String OrderTime;
+    @TableField("ReturnSign")
+    private String ReturnSign;
 
-    @TableField("State")
-    private Integer State;
+    @TableField("IsComplete")
+    private Integer IsComplete;
 
-    @TableField("Remark")
-    private String Remark;
+    @TableField("Operator")
+    private String Operator;
+    
+    @TableField("OperatorCode")
+    private String OperatorCode;
+    
+    @TableField("BizType")
+    private String BizType;
+    
+    @TableField("EnableFlag")
+    private Integer EnableFlag;
+    
+    @TableField("Warning")
+    private Double Warning;
 
+    
 
 }

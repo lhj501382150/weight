@@ -28,6 +28,8 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+    	String uri = request.getRequestURI();
+    	System.out.println(uri);
     	// 获取token, 并检查登录状态
         SecurityUtils.checkAuthentication(request);
         chain.doFilter(request, response);

@@ -4,12 +4,13 @@
 			<view class="order-box" v-for="item in orders" :key="item.id">
 				<view class="order-box-left">
 					<view class="order-title-top">
-						<text class="order-mr" v-show="moren">默认</text>
-						<text class="order-add">{{item.Code}}{{item.CarNumber}}</text>
+						<text class="order-mr" v-show="moren">{{item.code}}</text>
+						<text class="order-add">{{item.customerName}}</text>
 					</view>
 					<view class="order-title-bott">
-						<text class="order-name">{{item.MaterialName}}</text>
-						<text class="order-num">{{item.OrderWeight}}</text>
+						<text class="order-name">{{item.total}}</text>
+						<text class="order-num">{{item.sendCount}}</text>
+						<text class="order-num">{{item.count}}</text>
 					</view>
 				</view>
 				<view class="order-right" @click="toadd('edit',item)">
@@ -31,11 +32,17 @@
 		data() {
 			return {
 				orders:[],
-				moren:false,
+				moren:true,
 				addlist:null,
 				type:null,
 				count:0,
-				pageIndex:1,
+				pageRequest:{
+					pageNum:1,
+					pageSize:20,
+					params:{
+						
+					}
+				},
 				isBottom:false
 			}
 		},
@@ -54,13 +61,20 @@
 				this.count = 48
 			},
 			getOrderList(cb){
-				uni.request({
+				/* uni.request({
 					url: '/static/data/order.json', //仅为示例，并非真实接口地址。
 					method:'get',
 					success:(res)=>{
 						this.orders = [...this.orders,...res.data]
 					}
-				})
+				}) */
+				this.$http.post('/order/findAll',this.pageRequest,(res)=>{
+					if(res.code==200){
+						var data = res.data;
+						this.orders = [...this.orders,...res.data]
+						console.log(this.orders)
+					}
+				 })
 				if(cb){
 					cb()
 				}
@@ -89,14 +103,14 @@
 		onReachBottom() {
 			console.log("------触底了----")
 			if(this.orders.length < this.count){
-				this.pageIndex++
+				this.pageRequest.pageNum++
 				this.getOrderList()
 			}else{
 				this.isBottom = true
 			}
 		},
 		onPullDownRefresh() {
-			this.pageIndex = 1;
+			this.pageRequest.pageNum	 = 1;
 			this.isBottom = false;
 			this.orders = []
 			this.getOrderList(()=>{
