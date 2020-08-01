@@ -2,6 +2,12 @@
 	<view class="login">
 			<form class="login-form">
 				<view class="login-box">
+					<text class="login-title">订单类型</text>
+					 <picker @change="bindT" :value="t_index" :range="t_arr"  class="login-input">
+						<view >{{t_arr[t_index]}}</view>
+					</picker>
+				</view>
+				<view class="login-box">
 					<text class="login-title">客户</text>
 					 <picker @change="bindC" :value="c_index" :range="c_arr"  class="login-input">
 						<view >{{c_arr[c_index]}}</view>
@@ -50,15 +56,18 @@
 				c_index: 0,
 				v_index: 0,
 				m_index: 0,
+				t_arr:['销售','采购'],
+				t_index: 0,
 				password:'',
 				form:{
 					customerCode:'',
 					vendorCode:'',
 					materialCode:'',
 					warning:'',
-					total:'',
-					sendCount:'',
-					count:''
+					total:0,
+					sendCount:0,
+					count:0,
+					bizType:''
 				},
 				loading:false,
 				disabled:false,
@@ -66,8 +75,11 @@
 			}
 		},
 		methods: {
-			 bindC: function(e) {
-				 console.log(e)
+			 bindT: function(e) {
+				this.t_index = e.target.value
+				this.form.bizType = this.t_index == 0 ? 'S':'P'; 
+			},
+			bindC: function(e) {
 				this.c_index = e.target.value
 				this.form.custom = this.c_arr[this.c_index]
 			},
@@ -104,19 +116,25 @@
 				this.form.sendCount = 0
 				this.loading = true;
 				this.disabled = true;
-				console.log(this.form)
 				  this.$http.post('/order/save',this.form,(res)=>{
 					 if(res.code==200){
-						 uni.reLaunch({
-						 	url:'../order/order'
-						 })
+						 uni.showModal({
+						        title: '提示',
+						        content: '新增成功',
+								 showCancel:false,
+								 success: () => {
+								 	uni.reLaunch({
+								 		url:'../order/order'
+								 	})
+								 }
+						     });
 					 }else{
+						 this.loading = false
+						 this.disabled = false
 						 uni.showToast({
 						         icon: 'none',
 						         title: res.msg,
 						     });
-							that.loading = false
-							that.disabled = false
 					 }
 				  })
 			}
@@ -135,11 +153,11 @@
 		width: 100%;
 		height: 100%;
 		background-color: #f8f5fc;
+		padding-top:30upx;
 	}
 		.login-form{
 			width: 100%;
 			height: 100%;
-			margin-top:20upx;
 		}
 		.login-box{
 			width: 90%;
@@ -147,7 +165,7 @@
 			display: flex;
 			align-items: center;
 			background-color: #ffffff;
-			margin-top: 50upx;
+			margin-bottom: 50upx;
 			margin-left: 5%;
 		}
 			.login-title{

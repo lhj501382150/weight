@@ -140,6 +140,7 @@
 					  now.setMonth(now.getMonth() - 1);
 				}
 				this.bdate = this.getDate(now);
+				this.orders = []
 				this.getWeightList()
 			},
 			getWeightList(cb){

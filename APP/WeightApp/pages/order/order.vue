@@ -40,6 +40,12 @@
 						<view class="tab-click-two">
 							 <button class="mini-btn" type="warn" size="" @click="query">查询</button>
 						</view>
+						<view class="tab-click-two">
+							 <button class="mini-btn" type="warn" size="" @click="toadd('P')">新增订单</button>
+						</view>
+						<!-- <view class="tab-click-two">
+							 <button class="mini-btn" type="warn" size="" @click="toadd('S')">新增销售订单</button>
+						</view> -->
 					</view>
 				</scroll-view>
 			</view>
@@ -63,9 +69,7 @@
 			</view>
 			<view class="isOver" v-if="isBottom">没有更多了</view>
 		</scroll-view>
-		<view class="order-butt" @click="toadd()">
-			<text>新增订单</text>
-		</view>
+		 
 	</view>
 </template>
 
@@ -99,9 +103,9 @@
 			...mapState(['hasLogin'])
 		},
 		methods: {
-			toadd(){
+			toadd(type){
 				uni.navigateTo({
-					url:'../orderAdd/orderAdd'
+					url:'../orderAdd/orderAdd?type='+type
 				})
 			},
 			showtitle(){
@@ -138,6 +142,7 @@
 					  now.setMonth(now.getMonth() - 1);
 				}
 				this.bdate = this.getDate(now);
+				this.orders = []
 				this.getOrderList()
 			},
 			getOrderList(cb){
