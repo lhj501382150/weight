@@ -7,6 +7,20 @@ create table app_login(
 	primary key(Id)
 );
 
+create table Custom(
+	Id int not null auto_increment,
+	Code varchar(120),
+	FName varchar(120),
+	TypeCode varchar(120),
+	primary key(Id)
+);
+create table Material(
+	Id int not null auto_increment,
+	Code varchar(120),
+	FName varchar(120),
+	primary key(Id)
+);
+
 create table  bl_user(
 	Id int ,
 	Code varchar(120),

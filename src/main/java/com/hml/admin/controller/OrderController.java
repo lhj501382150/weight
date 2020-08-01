@@ -63,7 +63,18 @@ public class OrderController extends BaseController {
 	@PreAuthorize("hasAuthority('order:save')")
 	@PostMapping(value="/save")
 	public HttpResult save(@RequestBody Order record) {
-		 System.out.println(record);
+		if("".equals(record.getCustomerCode())) {
+			return HttpResult.error("客户不能为空");
+		}
+		if("".equals(record.getVendorCode())) {
+			return HttpResult.error("供货商不能为空");
+		}
+		if("".equals(record.getMaterialCode())) {
+			return HttpResult.error("物料不能为空");
+		}
+		if(record.getTotal()==null) {
+			return HttpResult.error("总量不能为空");
+		}
 		return HttpResult.ok(orderService.saveOrder(record));
 	}
 }
