@@ -26,7 +26,7 @@ public class DictController extends BaseController {
 	@PostMapping("/customer")
 	public HttpResult findCustomer() {
 		QueryWrapper<Customer> qw = new QueryWrapper<Customer>();
-		qw.eq("TypeCode", "01");
+		//qw.eq("TypeCode", "01");
 		List<Customer> list = dictService.list(qw);
 		List<String> temp = new ArrayList<String>();
 		for(Customer custom:list) {
@@ -37,7 +37,7 @@ public class DictController extends BaseController {
 	@PostMapping("/vendor")
 	public HttpResult findVendor() {
 		QueryWrapper<Customer> qw = new QueryWrapper<Customer>();
-		qw.eq("TypeCode", "02");
+		//qw.eq("TypeCode", "02");
 		List<Customer> list = dictService.list(qw);
 		List<String> temp = new ArrayList<String>();
 		for(Customer custom:list) {

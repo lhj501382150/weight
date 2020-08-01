@@ -77,7 +77,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 		order.setIsComplete(0);
 		order.setOperator(SecurityUtils.getUsername());
 		order.setOperatorCode(SecurityUtils.getUsername());
-		order.setBizType("S");
+		//order.set	("S");
 		order.setEnableFlag(0);
 		order.setAdjust(0);
 		order.setSpecificationsModel("");
