@@ -1,6 +1,9 @@
 package com.hml.admin.entity;
 
 import java.math.BigDecimal;
+
+import org.apache.ibatis.annotations.Insert;
+
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -23,7 +26,7 @@ public class Order implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId("Id")
+    @TableField(value="Id",exist = false)
     private Integer Id;
 
     @TableField("Code")
@@ -48,7 +51,7 @@ public class Order implements Serializable {
     private String MaterialCode;
 
     @TableField("MaterialName")
-    private BigDecimal MaterialName;
+    private String MaterialName;
 
     @TableField("SpecificationsModel")
     private String SpecificationsModel;
@@ -69,7 +72,7 @@ public class Order implements Serializable {
     private String SaveTime;
 
     @TableField("ReturnSign")
-    private String ReturnSign;
+    private Integer ReturnSign;
 
     @TableField("IsComplete")
     private Integer IsComplete;
@@ -82,6 +85,10 @@ public class Order implements Serializable {
     
     @TableField("BizType")
     private String BizType;
+    
+    
+    @TableField("Adjust")
+    private Integer Adjust;
     
     @TableField("EnableFlag")
     private Integer EnableFlag;

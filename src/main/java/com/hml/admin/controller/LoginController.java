@@ -75,7 +75,7 @@ public class LoginController {
 			return HttpResult.error("账号不存在");
 		}
 		if("".equals(user.getFPassword())){
-			return HttpResult.error(101, "首次登陆App，请绑定");
+			return HttpResult.error(101, "首次登陆App，请初始化密码");
 		}
 		if (!PasswordUtils.matches(SysConstants.SALT, password, user.getFPassword())) {
 			return HttpResult.error("密码不正确");
@@ -98,7 +98,7 @@ public class LoginController {
 		String pwd = loginBean.getPassword();
 		pwd = PasswordUtils.encode(pwd, SysConstants.SALT);
 		login.setPwd(pwd);
-		login.setMobile(loginBean.getMobile());
+		//login.setMobile(loginBean.getMobile());
 		
 		int code = userService.saveAppLogin(login);
 		return HttpResult.ok(code);

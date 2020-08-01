@@ -100,8 +100,6 @@ public class MybatisPlusPageHelper {
 					qw.orderByAsc(paras[0]);
 				}else if("DESC".equals(temp)){
 					qw.orderByDesc(paras[0]);
-				}if("EQ".equals(temp)){
-					qw.eq(paras[0], val);
 				}
 			}else{
 				qw.eq(key, val);

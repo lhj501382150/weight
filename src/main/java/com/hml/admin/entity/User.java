@@ -43,9 +43,6 @@ public class User implements Serializable {
     @TableField("Remark")
     private String Remark;
 
-    @TableField("MobileCode")
-    private String MobileCode;
-
     @TableField("SaveTime")
     private String SaveTime;
 

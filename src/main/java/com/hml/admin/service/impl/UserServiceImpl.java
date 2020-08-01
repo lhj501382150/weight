@@ -34,7 +34,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 	public User findByNameAndMobile(String username, String mobile) {
 		QueryWrapper<User> qw = new QueryWrapper<>();
 		qw.eq("Code", username);
-		qw.eq("MobileCode", mobile);
+		//qw.eq("MobileCode", mobile);
 		User user = userMapper.selectOne(qw);
 		return user;
 	}

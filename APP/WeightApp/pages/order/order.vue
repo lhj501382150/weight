@@ -1,28 +1,71 @@
 <template>
 	<view class="order">
+		<view class="tab">
+			<view class="tab-left">
+				<text class="tab-left-title" @click="search(0)" >最近一周</text>
+				<text class="tab-left-title" @click="search(1)" >最近一月</text>
+			</view>
+			<view class="tab-right" @click="showtitle()">
+				<image src="/static/images/fenlei.png" mode="" class="tab-right-img"></image>
+			</view>
+			<view class="tab-click" v-show="tabtitle" >
+				<view class="tab-click-left" @click="tabclick()">
+					
+				</view>
+				<scroll-view scroll-y class="tab-click-box">
+					<view class="tab-click-box-nav">
+						<view class="tab-click-title">
+							<text>{{tabhead}}</text>
+						</view>
+						<view class="tab-click-two">
+								<text class="tab-click-two-text">开始日期</text>
+								<picker mode="date" class="order-date" :value="bdate"  @change="bindBDateChange" @cancel="cancleBdate">
+										<view class="order-date-search">{{bdate}}</view>
+									</picker>
+						</view>
+						<view class="tab-click-two">
+							<text  class="tab-click-two-text">结束日期</text>
+								<picker mode="date" class="order-date" :value="edate"  @change="bindEDateChange" @cancel="cancleEdate">
+									<view class="order-date-search">{{edate}}</view>
+								</picker>
+						</view>
+						<view class="tab-click-two">
+							<text  class="tab-click-two-text">客户名称</text>
+							<input type="text" value=""  placeholder="" class="order-date" displayable v-model="customerName"/>	 
+						</view>
+						<view class="tab-click-two">
+							<text  class="tab-click-two-text">物料名称</text>
+							<input type="text" value=""  placeholder="" class="order-date" displayable v-model="materialName"/>	 
+						</view>
+						<view class="tab-click-two">
+							 <button class="mini-btn" type="warn" size="" @click="query">查询</button>
+						</view>
+					</view>
+				</scroll-view>
+			</view>
+		</view>
 		<scroll-view scroll-y class="order-list">
-			<view class="order-box" v-for="item in orders" :key="item.id">
+			<view class="order-box" v-for="(item,index) in orders" :key="item.id">
+				<view class="order-seq">{{index+1}}</view>
 				<view class="order-box-left">
 					<view class="order-title-top">
 						<text class="order-mr" v-show="moren">{{item.code}}</text>
-						<text class="order-add">{{item.customerName}}</text>
+						<text class="order-name-top">{{item.customerName}}</text>
+						<text class="order-name-top">{{item.materialName}}</text>
 					</view>
 					<view class="order-title-bott">
-						<text class="order-name">{{item.total}}</text>
-						<text class="order-num">{{item.sendCount}}</text>
-						<text class="order-num">{{item.count}}</text>
+						<text class="order-name">订单:{{item.total}}</text>
+						<text class="order-name">发货:{{item.sendCount}}</text>
+						<text class="order-name-warn">剩余:{{item.count}}</text>
 					</view>
+					
 				</view>
-				<view class="order-right" @click="toadd('edit',item)">
-					<image src="/static/images/xiugai.png" mode="" class="order-right-img"></image>
-				</view>
-			
 			</view>
 			<view class="isOver" v-if="isBottom">没有更多了</view>
 		</scroll-view>
-		<!-- <view class="order-butt" @click="toadd('add')">
+		<view class="order-butt" @click="toadd()">
 			<text>新增订单</text>
-		</view> -->
+		</view>
 	</view>
 </template>
 
@@ -33,9 +76,15 @@
 			return {
 				orders:[],
 				moren:true,
+				tabtitle:false,
+				tabhead:'筛选条件',
 				addlist:null,
 				type:null,
 				count:0,
+				bdate:'',
+				edate:'',
+				customerName:'',
+				materialName:'',
 				pageRequest:{
 					pageNum:1,
 					pageSize:20,
@@ -50,34 +99,70 @@
 			...mapState(['hasLogin'])
 		},
 		methods: {
-			toadd(type,option){
-				console.log(option)
-				let data = JSON.stringify(option) 
+			toadd(){
 				uni.navigateTo({
-					url:`../components/add?type=${type}&data=${encodeURIComponent(data)}`,
+					url:'../orderAdd/orderAdd'
 				})
+			},
+			showtitle(){
+				 this.tabtitle = true ;
+			},
+			tabclick(){
+				 this.tabtitle = false ;
+			},
+			bindBDateChange: function(e) {
+				this.bdate = e.target.value
+			},
+			bindEDateChange: function(e) {
+				this.edate = e.target.value
+			},
+			cancleBdate(e){
+				this.bdate = ''
+			},
+			cancleEdate(e){
+				this.edate = ''
 			},
 			getCount(){
 				this.count = 48
 			},
+			query(){
+				this.orders = []
+				this.getOrderList()
+			},
+			search(type){
+				var now = new Date();
+				this.edate = this.getDate(now);
+				if(type==0){
+					 now.setDate(now.getDate() - 7);
+				}else if(type==1){
+					  now.setMonth(now.getMonth() - 1);
+				}
+				this.bdate = this.getDate(now);
+				this.getOrderList()
+			},
 			getOrderList(cb){
-				/* uni.request({
-					url: '/static/data/order.json', //仅为示例，并非真实接口地址。
-					method:'get',
-					success:(res)=>{
-						this.orders = [...this.orders,...res.data]
-					}
-				}) */
+				this.pageRequest.params.bdate = this.bdate
+				this.pageRequest.params.edate = this.edate
+				this.pageRequest.params.materialName = this.materialName
+				this.pageRequest.params.customerName = this.customerName
 				this.$http.post('/order/findAll',this.pageRequest,(res)=>{
 					if(res.code==200){
 						var data = res.data;
 						this.orders = [...this.orders,...res.data]
-						console.log(this.orders)
+						this.tabtitle = false ;
 					}
 				 })
 				if(cb){
 					cb()
 				}
+			},
+			getDate(date) {
+				let year = date.getFullYear();
+				let month = date.getMonth() + 1;
+				let day = date.getDate();
+				month = month > 9 ? month : '0' + month;;
+				day = day > 9 ? day : '0' + day;
+				return `${year}-${month}-${day}`;
 			}
 		},
 		onLoad() {
@@ -97,11 +182,10 @@
 				 })
 			}else{
 				this.getCount();
-				this.getOrderList();
+				this.search();
 			}
 		},
 		onReachBottom() {
-			console.log("------触底了----")
 			if(this.orders.length < this.count){
 				this.pageRequest.pageNum++
 				this.getOrderList()
@@ -143,41 +227,48 @@
 		.order-box:nth-last-child(1){
 			margin-bottom: 160upx;
 		}	
-			.order-right{
-				flex: 1;
-				box-sizing: border-box;
-				text-align: center;
-				background-color: rgba(255,255,255,0.1);
-				position: relative;
-			}
-					.order-right-img{
-						width: 30upx;
-						height: 30upx;
-						position: absolute;
-						top: 40%;
-						right: 35%;
-					}
-			.order-box-left{
-				flex: 8;
-				margin: 14upx 0;
-			}
-				.order-mr{
-					font-size: 24upx;
-					width: 60upx;
-					height: 40upx;
-					line-height: 40upx;
-					text-align: center;
-					border: 1px solid #e1d8db;
-					color: #c26985;
-					float: left;
-					margin-top: 10upx;
-					margin-right: 30upx;
-				}
-				.order-add{
-					width: 80%;
-					color: #232323;
-					font-size: 32upx;
-				}
+		.order-right{
+			flex: 1;
+			box-sizing: border-box;
+			text-align: center;
+			background-color: rgba(255,255,255,0.1);
+			position: relative;
+		}
+		.order-seq{
+			flex:0;
+			margin: 2upx 0;
+			display: inline-flex;
+			font-family: cursive;
+			margin-top: 50upx;
+			margin-right: 20upx;
+			
+		}
+		.order-box-left{
+			flex: 8;
+			margin: 5upx 0;
+		}
+		.order-mr{
+			font-size: 24upx;
+			width: 190upx;
+			height: 40upx;
+			line-height: 40upx;
+			text-align: center;
+			border: 1px solid #e1d8db;
+			color: #c26985;
+			margin-top: 10upx;
+			margin-right: 30upx;
+		}
+		.order-add{
+			width: 150upx;
+			color: #232323;
+			font-size: 32upx;
+		}
+		.order-time{
+			width: 50%;
+			color: #232323;
+			font-size: 32upx;
+			padding-left:30upx;
+		}
 				
 		.order-title-bott{
 			height: 80upx;
@@ -185,11 +276,20 @@
 			color: #848389;
 			font-size: 28upx;
 		}
-			.order-name{
-				
-				margin-right:60upx;
-			}
-		
+		.order-name-top{
+			display: inline-flex;
+			width: 30%;
+		}
+		.order-name{
+			display: inline-flex;
+			width: 32%;
+			height: 80upx;
+		}
+		.order-name-warn{
+			display: inline-flex;
+			width: 30%;
+			color:#DD524D;
+		}
 		
 	/* 按钮 */
 		.order-butt{
@@ -212,4 +312,134 @@
 			text-align: center;
 			font-size: 32upx;
 		}
+		.order-search{
+			height: 120upx;
+			border-bottom: #2C405A 1px solid;
+		}
+		.order-date{
+			display: inline-flex;
+			width: 230upx;
+			height: 60upx;
+			margin:30upx;
+			border-radius: 10%;
+			border: none;
+		}
+		.order-date-search{
+			color: #808080;
+			padding-left: 10upx;
+			font-size: 30upx;
+		}
+		.tab{
+			width: 100%;
+			height: 90upx;
+			display: flex;
+			border-bottom: 2px #EBEBEB solid;
+			box-sizing: border-box;
+		}
+			.tab-left{
+				width: 85%;
+				height: 90upx;
+				display: flex;
+				padding-left: 4%;
+				box-sizing: border-box;
+				justify-content: space-around;
+				align-items: center;
+				
+			}
+				.tab-left-title{
+					width:32%;
+					height: 90upx;
+					line-height: 90upx;
+					text-align: center;
+					font-size: 30upx;
+					color: #c8536e;
+					font-weight: 600;
+					box-sizing: border-box;
+					
+				}
+				.title-sx{
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+				.active{
+					
+				}
+				.tab-left-box{
+					width: 30upx;
+					height: 90upx;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					flex-direction: column;
+					margin-left: 10upx;
+				}
+				.tab-left-title-img{
+					width: 30upx;
+					height: 30upx;
+				}
+			.tab-right{
+				width: 15%;
+				height: 90upx;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				
+			}
+				.tab-right-img{
+					width: 50upx;
+					height: 50upx;
+				}
+				/* 列表 */
+				.list{
+					margin-bottom: 0;
+				}
+				/* 弹出的选框	 */
+				.tab-click{
+					width: 100%;
+					height: 100%;
+					position: fixed;
+					right: 0;
+					top: 90upx;
+					background-color: rgba(153,153,153,0.5);
+					z-index: 5;
+				}
+						.tab-click-left{
+							width: 30%;
+							height: 100%;
+							float: left;
+						}
+						.tab-click-box{
+							width: 70%;
+							height: 100%;
+							background-color: #FFFFFF;
+							float: right;
+						}
+							.tab-click-box-nav{
+								width: 100%;
+								height: 100%;
+							}
+							.tab-click-title{
+								width: 100%;
+								height: 80upx;
+								line-height:80upx;
+								padding-left: 15upx;
+								font-size: 32upx;
+								background-color: #f8f8f8;
+								border-bottom: 1px #CCCCCC solid;
+							}
+							.tab-click-two{
+								width: 100%;
+								height: 120upx;
+								line-height: 120upx;
+								padding-left: 15upx;
+								font-size: 32upx;
+								background-color: #FFFFFF;
+								border-bottom: 1px #CCCCCC solid;
+								color: #6a6a6a;
+							}
+							.tab-click-two-text{
+								border: #C8C7CC 1px solid;
+								background-color: #F5F5F5;
+							}
 </style>

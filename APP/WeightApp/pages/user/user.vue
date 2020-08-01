@@ -50,6 +50,16 @@
 				<image src="/static/images/youjiantou.png" mode="" class="user-naver-right-img"></image>
 			</view>
 		</navigator>
+		<!-- <navigator class="user-naver" :url="'../bind/bind?account='+userName" >
+			<view class="user-naver-left">
+				<image src="/static/images/dingdan.png" mode="" class="user-naver-left-img"></image>
+				<text class="user-naver-left-title">修改密码</text>
+			</view>
+			<view class="user-naver-right">
+				<text class="user-naver-right-title"></text>
+				<image src="/static/images/youjiantou.png" mode="" class="user-naver-right-img"></image>
+			</view>
+		</navigator> -->
 	</view>
 </template>
 

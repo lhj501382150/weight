@@ -44,6 +44,7 @@
 		methods: {
 			 ...mapMutations(['login']),
 			 bindLogin(){
+				 
 				 if (this.account.length <= 0) {
 				     uni.showToast({
 				         icon: 'none',
@@ -69,7 +70,18 @@
 						if(res.code==200){
 							uni.setStorageSync(AUTH_TOKEN, res.data.token);
 							that.toMain(res.data.name);
-							  
+						}else if(res.code==101){
+							uni.showModal({
+							        icon: 'none',
+							        title: res.msg,
+									showCancel:false,
+									success:()=>{
+										uni.navigateTo({
+											url:'/pages/bind/bind?account='+data.account
+										})
+									}
+							    });
+							
 						}else{
 							uni.showToast({
 							        icon: 'none',

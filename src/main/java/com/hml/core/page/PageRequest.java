@@ -43,5 +43,9 @@ public class PageRequest {
 	public Object getParam(String key) {
 		return getParams().get(key);
 	}
+	@Override
+	public String toString() {
+		return "PageRequest [pageNum=" + pageNum + ", pageSize=" + pageSize + ", params=" + params + "]";
+	}
 	
 }
