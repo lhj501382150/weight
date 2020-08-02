@@ -5,7 +5,8 @@
  */
 
  // 后台管理系统服务器地址
-export const baseUrl = 'http://192.168.0.185:8090'
+//export const baseUrl = 'http://192.168.3.109:8090'
+ export const baseUrl = 'http://localhost:8090'
 export const AUTH_TOKEN = "token"
 
 export default {

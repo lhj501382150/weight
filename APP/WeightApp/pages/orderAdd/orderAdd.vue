@@ -77,7 +77,6 @@
 		methods: {
 			 bindT: function(e) {
 				this.t_index = e.target.value
-				this.form.bizType = this.t_index == 0 ? 'S':'P'; 
 			},
 			bindC: function(e) {
 				this.c_index = e.target.value
@@ -114,6 +113,7 @@
 				this.form.materialCode = this.m_arr[this.m_index]
 				this.form.count = this.form.total
 				this.form.sendCount = 0
+				this.form.bizType = this.t_index == 0 ? 'S':'P'; 
 				this.loading = true;
 				this.disabled = true;
 				  this.$http.post('/order/save',this.form,(res)=>{
